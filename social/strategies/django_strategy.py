@@ -47,6 +47,7 @@ class DjangoStrategy(BaseStrategy):
             data = self.request.POST
         else:
             data = self.request.GET
+        print(data)
         return data
 
     def request_host(self):
