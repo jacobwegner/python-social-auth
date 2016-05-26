@@ -21,7 +21,7 @@ OID_GIVEN_NAME = "urn:oid:2.5.4.42"
 OID_MAIL = "urn:oid:0.9.2342.19200300.100.1.3"
 OID_SURNAME = "urn:oid:2.5.4.4"
 OID_USERID = "urn:oid:0.9.2342.19200300.100.1.1"
-
+DEFAULT_IDP_NAME = os.environ.get("SOCIAL_AUTH_SAML_DEFAULT_IDP_NAME")
 
 class SAMLIdentityProvider(object):
     """Wrapper around configuration for a SAML Identity provider"""
@@ -288,7 +288,7 @@ class SAMLAuth(BaseAuth):
         The user has been redirected back from the IdP and we should
         now log them in, if everything checks out.
         """
-        idp_name = self.strategy.request_data()['RelayState']
+        idp_name = self.strategy.request_data().get('RelayState', DEFAULT_IDP_NAME)
         idp = self.get_idp(idp_name)
         auth = self._create_saml_auth(idp)
         auth.process_response()
